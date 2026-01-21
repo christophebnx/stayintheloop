@@ -1,0 +1,75 @@
+baseURL: "https://stayintheloop.dev/"
+languageCode: en-us
+title: Stay In The Loop
+theme: PaperMod
+
+params:
+  env: production
+  description: "Clean code, AI-assisted development, and the human craft behind quality software"
+  author: "[Ton nom]"
+  
+  # Mode d'affichage home
+  homeInfoParams:
+    Title: "Human-led, AI-boosted development"
+    Content: >
+      Writing about clean code practices, Python craftsmanship, 
+      and using AI as a tool — not a replacement.
+
+  # Icônes sociales
+  socialIcons:
+    - name: github
+      url: "https://github.com/christophebnx"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/christophebeneux/"
+    - name: rss
+      url: "/index.xml"
+
+  # Features
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShareButtons:
+    - linkedin
+    - reddit
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+
+  # SEO
+  keywords:
+    - clean code
+    - python
+    - AI coding
+    - software craftsmanship
+    - data engineering
+
+# Menu
+menu:
+  main:
+    - identifier: posts
+      name: Articles
+      url: /posts/
+      weight: 10
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 20
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 30
+
+# Outputs pour RSS
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+# Syntax highlighting
+markup:
+  highlight:
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    style: monokai
