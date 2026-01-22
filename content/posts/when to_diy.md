@@ -1,6 +1,6 @@
 ---
 title: "AI-Assisted Coding: Knowing When to Type It Yourself"
-date: 2025-01-21
+date: 2025-01-19
 draft: false
 tags: ["ai", "productivity", "python", "workflow"]
 description: "AI coding assistants are powerful. But the goal is efficiency, not AI usage for its own sake. Here's when I close the tab."
