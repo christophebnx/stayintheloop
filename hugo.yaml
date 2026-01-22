@@ -6,7 +6,7 @@ theme: PaperMod
 params:
   env: production
   description: "Clean code, AI-assisted development, and the human craft behind quality software"
-  author: "[Ton nom]"
+  author: "Christophe B."
   
   # Mode d'affichage home
   homeInfoParams:
