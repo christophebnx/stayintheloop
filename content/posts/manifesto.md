@@ -8,7 +8,7 @@ description: "From 10 years of SAP BODS to full Python — why I care about code
 
 I spent 10 years as a SAP BODS consultant. It taught me a lot — especially about the frustration of working inside a black box. When something broke, I often couldn't dig into the internals. I had to work around limitations rather than through them. The tool did the job, but I never felt like I truly understood my own pipelines end to end. And let's just say that debugging a data flow through a GUI with cryptic error messages at 2am — while the documentation loads slower than your will to live — builds character. A lot of character. If you've ever opened a support ticket hoping for answers and received "working as designed," you know exactly what I mean.
 
-Three years ago, I switched to full Python. The difference wasn't just the language — it was the relationship with my code.
+A few years ago, I switched to full Python. The difference wasn't just the language — it was the relationship with my code.
 
 With Python, I can read every line of my pipeline. I can test it, version it, refactor it, deploy it wherever I want. When something breaks, I open the code and figure it out. No abstraction I can't pierce. That depth of understanding changed how I approach data engineering. It's not just about moving data from A to B. It's about building systems you know well enough to trust — and to fix at 2am when needed.
 
