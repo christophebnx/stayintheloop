@@ -1,6 +1,6 @@
 ---
 title: "Packaging a Python Project Like a Pro"
-date: 2026-01-12
+date: 2026-01-15
 draft: false
 description: "Stop copy-pasting scripts between projects. Learn how to structure and package your Python code so it's installable, importable, and reusable."
 tags: ["python", "packaging", "uv", "best-practices"]

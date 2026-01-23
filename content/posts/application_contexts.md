@@ -1,6 +1,6 @@
 ---
 title: "Tired of Passing 10 Parameters to Your Functions: Go For The ApplicationContext Pattern for Data Pipelines"
-date: 2026-01-22
+date: 2026-01-12
 draft: false
 tags: ["python", "clean-code", "data-engineering", "patterns"]
 summary: "Your pipeline functions don't need tons of parameters. Here's a simple pattern to clean up your Databricks and Snowflake code."

@@ -1,6 +1,6 @@
 ---
 title: "Stop Using Dicts for Config — Use Pydantic Instead"
-date: 2026-01-08
+date: 2025-11-26
 summary: "Load your YAML/TOML config files into validated, typed Python objects. No more silent typos, no more runtime surprises."
 tags: ["python", "pydantic", "config", "data-engineering"]
 ---

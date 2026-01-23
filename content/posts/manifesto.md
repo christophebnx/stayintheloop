@@ -1,6 +1,6 @@
 ---
 title: "Why I'm Writing About Clean Python and AI-Assisted Coding"
-date: 2026-01-05
+date: 2025-11-02
 draft: false
 tags: ["python", "ai", "clean-code", "data-engineering"]
 description: "From 10 years of SAP BODS to full Python — why I care about code ownership and using AI tools thoughtfully."
