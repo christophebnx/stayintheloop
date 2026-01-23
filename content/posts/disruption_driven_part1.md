@@ -1,6 +1,6 @@
 ---
 title: "Solutions Looking for Problems: A Field Guide to Fake Disruption"
-date: 2025-01-22
+date: 2026-01-22
 draft: false
 summary: "Project Elephant didn't exist. But you've probably worked on it."
 tags: ["data-engineering", "project-management", "anti-bullshit", "cloud-migration", "disruption"]
