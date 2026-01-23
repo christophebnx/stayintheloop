@@ -10,7 +10,7 @@ params:
   
   # Mode d'affichage home
   homeInfoParams:
-    Title: "Human-led, AI-boosted development"
+    Title: "Human-led software development"
     Content: >
       Writing about clean code best practices, Python craftsmanship, 
       and using AI as a tool — not a replacement.
