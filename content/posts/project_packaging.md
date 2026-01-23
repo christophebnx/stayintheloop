@@ -1,19 +1,19 @@
 ---
-title: "Packaging a Python Project like a Pro"
-date: 2026-01-21
-draft: true
-description: "Stop copy-pasting scripts between projects. Learn how to structure and package your Python code to make it installable, importable, and reusable."
+title: "Packaging a Python Project Like a Pro"
+date: 2026-01-12
+draft: false
+description: "Stop copy-pasting scripts between projects. Learn how to structure and package your Python code so it's installable, importable, and reusable."
 tags: ["python", "packaging", "uv", "best-practices"]
 author: "Christophe B."
 ---
 
-You've written a useful Python script. Maybe it's a data transformation, a CLI tool, or a helper module you keep copying into every project. It works, but something is wrong, not to mention when you need to make a change.
+You've written a useful Python script. Maybe it's a data transformation, a CLI tool, or a helper module you keep copying into every project. It works — but something feels off.
 
-You're doing `sys.path` hacks. You're copying files here and there. You're importing things with weird relative paths that break when you run the script from a different directory. Sound familiar ?
+You're doing `sys.path` hacks. You're copying files around. You're importing things with weird relative paths that break when you run the script from a different directory.
 
 There's a better way. And it's not complicated.
 
-This article will walk you through packaging a Python project properly. Not "publish to PyPI" packaging (we'll get to that later) — just "I can install this locally and import it from anywhere" packaging. The kind that makes your code feel like a real project instead of a collection of loose scripts.
+This article will walk you through packaging a Python project properly. Not "publish to PyPI" packaging (we'll cover it later maybe) — just "I can install this locally and import it from anywhere" packaging. The kind that makes your code feel like a real project instead of a messy collection of loose scripts.
 
 We'll build a small but real CLI tool: a JSON flattener that explodes nested structures into CSV rows. Along the way, you'll learn:
 
@@ -33,7 +33,7 @@ Here's what proper packaging gives you:
 **Clean imports.** No more `sys.path.append("..")` or running scripts from specific directories. Once installed, your module is importable from anywhere:
 
 ```python
-from json_flatten import flatten_json
+from json_flatten import flatten_and_explode
 ```
 
 **Reusable code.** The same codebase works as a library (import it) and as a CLI (run it). No duplication.
@@ -61,13 +61,13 @@ Given this input:
 It produces this output:
 
 ```csv
-user,orders.id,orders.items
-alice,1,a
-alice,1,b
-alice,2,c
+orders_id,orders_items,user
+1,a,alice
+1,b,alice
+2,c,alice
 ```
 
-Three rows because there are three leaf items (`a`, `b`, `c`). The nested structure is flattened with dot-separated keys.
+Three rows because there are three leaf items (`a`, `b`, `c`). The nested structure is flattened with underscore-separated keys.
 
 This is a real use case. If you've ever dealt with nested JSON exports and needed to load them into a flat table, you know the pain.
 
@@ -94,23 +94,25 @@ A few things to note:
 
 **Underscore in the package name.** The repo and project are called `json-flatten` (with a hyphen), but the Python package is `json_flatten` (with an underscore). Hyphens aren't valid in Python identifiers, so this is the convention.
 
-**Separation of concerns.** `flatten.py` contains the core logic — a pure function with no dependencies. `cli.py` handles the command-line interface. This means you can import `flatten_json` in your own code without pulling in CLI dependencies.
+**Separation of concerns.** `flatten.py` contains the core logic — a pure function with no dependencies on CLI stuff. `cli.py` handles the command-line interface. This means you can import `flatten_and_explode` in your own code without pulling in CLI dependencies.
 
 ## The code (briefly)
 
-The core logic is a recursive function that flattens dicts, explodes arrays, and collects leaf values. Here's the signature:
+The core logic is a recursive function that flattens dicts, explodes arrays and tuples, and collects leaf values. Here's the signature:
 
 ```python
-def flatten_json(data: Any, parent_key: str = "", sep: str = ".") -> list[dict[str, Any]]:
+def flatten_and_explode(
+    data: Union[Dict[str, Any], List[Any], Tuple[Any, ...], Any],
+    parent_key: str = "",
+    sep: str = "_"
+) -> List[Dict[str, Any]]:
     """
-    Flatten a nested JSON structure and explode arrays.
-    
-    Each leaf value becomes a row. Arrays are exploded so that
-    each item generates its own row(s).
+    Recursively flattens and explodes a dictionary, list, or tuple
+    into a list of flat dictionaries.
     """
 ```
 
-The implementation is about 40 lines of recursive logic. Nothing fancy — no pandas, no external dependencies. Just Python doing what he is good at.
+The implementation is about 40 lines of recursive logic. Nothing fancy — no pandas, no external dependencies. Just Python doing what Python is good at. It handles edge cases properly: empty dicts return one empty row, empty lists return no rows, and root-level scalars are wrapped in a `{"value": data}` dict.
 
 The CLI uses [Typer](https://typer.tiangolo.com/), which gives us a clean interface with almost no boilerplate:
 
@@ -119,12 +121,12 @@ The CLI uses [Typer](https://typer.tiangolo.com/), which gives us a clean interf
 def main(
     input_file: Path = typer.Argument(..., help="Path to the JSON file to flatten."),
     output: Optional[Path] = typer.Option(None, "--output", "-o", help="Output CSV file."),
-    separator: str = typer.Option(".", "--sep", "-s", help="Separator for nested keys."),
+    separator: str = typer.Option("_", "--sep", "-s", help="Separator for nested keys."),
 ) -> None:
     """Flatten a JSON file and output as CSV."""
 ```
 
-I won't go through every line here — the article is about packaging, not the flatten algorithm nor the typer module (which is very cool). Check the [full source on GitHub](https://github.com/christophebnx/json-flatten) if you're curious.
+I won't go through every line here — the article is about packaging, not the flatten algorithm. Check the [full source on GitHub](https://github.com/christophebnx/json-flatten) if you're curious.
 
 ## The pyproject.toml — the heart of it all
 
@@ -140,7 +142,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 ```
 
-This tells Python how to build your package. We're using [Hatchling](https://hatch.pypa.io/) — a modern, fast build backend. You could also use `setuptools`, but Hatchling has better defaults and less configuration.
+This tells Python how to build your package. We're using [Hatchling](https://hatch.pypa.io/) — a modern, fast build backend.
 
 ### Project metadata
 
@@ -152,7 +154,7 @@ description = "Flatten nested JSON to CSV. Each leaf value becomes a row."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-    { name = "Christophe B.", email = "christophe@stayintheloop.dev" },
+    { name = "Christophe", email = "christophe@stayintheloop.dev" },
 ]
 ```
 
@@ -256,10 +258,10 @@ json-flatten test.json
 Output:
 
 ```csv
-user,tags
-alice,a
-alice,b
-alice,c
+tags,user
+a,alice
+b,alice
+c,alice
 ```
 
 **Test the import:**
@@ -267,8 +269,8 @@ alice,c
 Open a Python shell from any directory:
 
 ```python
->>> from json_flatten import flatten_json
->>> flatten_json({"x": [1, 2]})
+>>> from json_flatten import flatten_and_explode
+>>> flatten_and_explode({"x": [1, 2]})
 [{'x': 1}, {'x': 2}]
 ```
 
