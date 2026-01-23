@@ -29,7 +29,7 @@ params:
   ShowShareButtons: true
   ShareButtons:
     - linkedin
-    - reddit
+    - twitter
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
