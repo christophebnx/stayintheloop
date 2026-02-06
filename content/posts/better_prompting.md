@@ -1,6 +1,6 @@
 ---
 title: "Stop Writing Better Prompts. Start Reviewing AI Code"
-date: 2026-02-07
+date: 2026-02-05
 draft: false
 tags: ["python", "ai", "prompting", "patterns", "data-engineering"]
 summary: "Stop chasing the perfect prompt. Start with a draft, review it like code, and iterate with constraints until the output matches your actual design."
